@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#5c3abd">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GymTracker">
+  <title>GymTracker — Mi Rutina</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/png;base64,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">
+  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABmJLR0QA/wD/AP+gvaeTAAAJY0lEQVR4nO3de2yV9R3H8c/3d9oeboUC6sgWI7cpm2NsQiK9wOhNxgxGTUqM5QhxcRIH/yxxbmNxTUzGyLLMZBcXEhHoZVk7d3GOjWlbIqUFImqnRoswN8Thwq215dLLeb77gx5SoKWnp+c8T0+/n1fSpH3Oc57nm3DenOfcniMIQGT5njleX2ixCG5XlQUA5gtwC6CTAJkMYGoQc1HKtQPogKADilOAtELRihBaT2TIu3v3Fvb5PZD4sZNH85uyu72e1SJaokChALP92C+lDwHOKrBbFC95Xvee6oPf+NSn/aZGWVltaMKJm0pUEAH0AQCTUrUvGncuCbQmitAvapoL30rljpIeQNmdtVkTcmZEVOUpAJ9P9vbJnNdE5ceVLUV7UrHxpAVQgQp3NLfgMRG3WaG3Jmu7RP3+ASffrWoqak3mRpMSQCS/cYlq9DlAliRje0RD8FSxrSfsnqzbW9iVjA2OKoBNq3aHz3WEtwLYBMAlYyCiOPzLOW/drqbSptFuKOEA1uY2zod4vwNw12iHIEqAJ8CWec37nq5AhZfoRhIKoDy3/gER7ACfr6egKf6S5cLl2/cXdCZy9REHEMmv36CKXwIIJbJDohR4J8Nzq3ccKPz3SK84ogDW5tU/BeAnI90JUcoJPpGoV1R5oPS9kVwt7geua/PqfwTe+GmsUszSkGsoX/bqF0dytbjuAfoPe55LbDIiP+nJEGTZzubiY/GsPWwA/Q9468BjfkoTArwfdVl5NU3Lzg237g0Pgdbl1c8TwQvgjZ/SiAILnNfzp02rdoeHW3fIADat2h2OArUApiV1OiJ/LD/bHn52uJWGDKD/FV6+yEVpSwQbIvkND95wncEWPlzQsNh5ehA89KH01+4BX6lpLv7PYBdedw9QgQrnPO834I2fxoccBzw/1IXXBXA0t+AxvquTxpniSN6rDw12wVWHQN9a/HrmhXDHBwBu82UsIr8IPum+5C2oO1zaMXDxVfcAFye0PwLe+Gk8UswKh933r1185R6grKw2FP545nvgxxhp/OqKZrk5v91beDq24Mo9QPjEjFLwxk/j2xTXHf3OwAVXAhAnEf/nIfKXiGxcv6IxJ/a3A4Dyu3dPVcX9wY1F5Jvs3h59OPaHAwDJyFoNnreHjBDoN2O/Xw5AURTcOES+u+uR3Fe+CvQH4EEYAJmiCN0PAC6yfM8cnquTrFHRVQDgvL7Q4qCHIQrA4kjenlscIHcEPQlRAJxqKM8BYABkkoh8yQmUr/6SSapY6ACZGfQgRIEQvd1BkB30HETBkOkOiilBj0EUkBwHvgWC7Mp24Hn9yS7HGz+ZxgDINAZApjEAMo0BkGkZQQ8wpuhJHD/xIv7Xm/B3ro1xIWTftA4LpvKlnxgGcJUzOHXqz2i7NF4DyMBnJq3BHVOnJO8b0tMcD4HINAZApjEAMo0BkGl8EBwXQdaEL2B6VmbQg8TpIrrOf4DzUQ16kDGPAcQlhOmffRols25Oj2dP9ChaW5/A2xeiQU8y5vEQiExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMo0BkGkMgExjAGQaAyDTGACZxgDItIygB0gPHjrP7MThixODHiROHTjd6wU9RFpgAHHxcKHjb3i/I+g5KNl4CESmMQAyjQGQaQyATOOD4KtMxbRpd+NzEzXoQVIkhOnhMCToMcYQWZtXP17/tYmGxUMgMo0BkGkMgExjAGQaAyDTGACZxgDINAZApjEAMs0B4CcnyCrPAegMegqigJx3APg5J7Kq00HQHvQURAHpdADagp6CKCBnnELfCXoKoiAocMTBk7eDHoQoEIo2l5WR2QQ+FUo2tbkX9i0/BegbQU9C5LdQyDvsAEAhfw96GCKfHd3VVHrcAYB4+GPQ0xD5SYBGoP+9QFUHit8A9K1gRyLyjydaDwx8M5zI84FNQ+QnxfmezNBfgQEBeJJVDaArsKGI/OL0xbq9hV3AgABqmpadA/CrwIYi8omLovLK7wMvyAxl/gyK8/6PROSbtrkHmhpif1wVQP9rAr/2fyYif6jolgpUXHnh97pPhGW5Cc8A+K+vUxH54/jkSzk1AxdcF8D2/QWdqvKkfzMR+aZi2+ElvQMXDPqZ4OqWohoADYNdRpSOFGiZ37xv57XLh/xQvEbdOgHOpnYsIl9EQ+p9e+Cxf8yQAVQfLDzhQR9P7VxEPhD8fFdL6ZuDXXTD06JUN5f8HtBtqZmKKPUEONTdfmbzUJcPe16gSd05GwHUJ3UqIn+0I6Pvobp31/QMtcKwAWw7vKS3W3vXgJ8dpvTSp6qRytdWfnijleI6M1xdy9fPhoB7AT2ZnNmIUkpFdEN1S8nLw60Y96kRdzYXH3MOKwB8PJrJiFJO9IeV+0vienfziL8wcP3Sxtm9zmsUYPaIByNKva1VzcXfi3flhL4xc/3Sxtl9znsJwMJErk+UAn0iuiHe//ljEv7K2Efzm7J7tLsKwH2JboMoSdpVNRLPMf+1Qonu8c2Ptvc8+NHc2nO33pYBIB881ToFQIBDktFXWrX/nkMJXn/0ypc25IvTnQDmJWN7RHHog+DZ7vYzm2/0PP9wkhIAAJStaJwS7oluBeRxjOKehWg4CrQo3BM1zYWjPpFD0gKIKc99ZSFEfiqQlcneNhmn8iFEn6lqLtoBiCZjk0kPIKY8r/4eAX4A4Gup2geZ0aaiWyZfyqm59v38o5WyAGLWFjQsgqcbAZQDmJjq/dG40QXRP7goKuceaGoY7K3MyZDyAGIuP0bQlRDvPqjcC2CmX/umtHFMgAZPtN51Rl+u/OfKlJ+gwbcABiorqw1NPD7jzmgIXxaRRVAsAvRmheQIkIPLPzT+fIrL557qAnBagSNQtDknR0Sir+9qKj3u90D/B5tkPG77yCdlAAAAAElFTkSuQmCC">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #fff; --bg2: #f5f5f7; --bg3: #ececf0;
+      --tx: #111; --tx2: #555; --bd: rgba(0,0,0,0.1); --bd2: rgba(0,0,0,0.18);
+      --ac: #5c3abd; --ac-l: #ede9fb;
+      --r: 8px; --rl: 14px;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{ --bg:#1a1a1e; --bg2:#26262c; --bg3:#111113; --tx:#f0f0f0; --tx2:#999; --bd:rgba(255,255,255,0.1); --bd2:rgba(255,255,255,0.18); --ac-l:#2d2460; }
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);min-height:100vh;overscroll-behavior:none}
+    .app{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+
+    .header{background:#1a1a2e;color:#fff;padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+    .avatar{width:40px;height:40px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#fff;flex-shrink:0}
+    .header-info{flex:1}
+    .header-sub{font-size:11px;opacity:.6}
+    .header-name{font-size:15px;font-weight:500}
+    .day-badge{background:rgba(255,255,255,.15);font-size:11px;padding:3px 10px;border-radius:20px;white-space:nowrap}
+
+    .nav{display:flex;border-bottom:0.5px solid var(--bd);background:var(--bg);position:sticky;top:0;z-index:50}
+    .nav-btn{flex:1;padding:9px 2px;font-size:10px;border:none;background:none;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .2s,border-color .2s}
+    .nav-btn i{font-size:20px}
+    .nav-btn.active{color:var(--ac);border-bottom-color:var(--ac)}
+
+    .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+    .section{display:none;padding:14px}
+    .section.active{display:block}
+
+    .day-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;scrollbar-width:none}
+    .day-tabs::-webkit-scrollbar{display:none}
+    .day-tab{flex-shrink:0;padding:6px 16px;border-radius:20px;border:0.5px solid var(--bd);font-size:12px;background:var(--bg2);color:var(--tx2);cursor:pointer;transition:all .2s}
+    .day-tab.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+    .exercise-card{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rl);padding:14px;margin-bottom:10px}
+    .ex-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .ex-emoji{font-size:22px;min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:0.5px solid var(--bd)}
+    .ex-name{font-size:14px;font-weight:500;color:var(--tx);flex:1}
+    .ex-muscle{font-size:11px;color:var(--tx2);margin-top:1px}
+    .icon-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;color:var(--tx2);font-size:18px;line-height:1}
+    .icon-btn:hover{background:var(--bg2)}
+    .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+    .stat-box{background:var(--bg2);border-radius:var(--r);padding:8px;text-align:center}
+    .stat-label{font-size:10px;color:var(--tx2);margin-bottom:2px}
+    .stat-val{font-size:16px;font-weight:500;color:var(--tx)}
+    .stat-unit{font-size:10px;color:var(--tx2)}
+    .card-btns{display:flex;gap:6px;flex-wrap:wrap}
+
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:opacity .2s}
+    .btn:active{opacity:.8}
+    .btn-primary{background:var(--ac);color:#fff}
+    .btn-secondary{background:var(--bg2);color:var(--tx);border:0.5px solid var(--bd2)}
+    .btn-success{background:#eaf3de;color:#3b6d11;border:0.5px solid #c0dd97}
+    .btn-block{width:100%;justify-content:center;padding:11px}
+
+    .prog-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px}
+    .prog-excelente{background:#eaf3de;color:#3b6d11}
+    .prog-bien{background:#e6f1fb;color:#185fa5}
+    .prog-regular{background:#faeeda;color:#854f0b}
+    .prog-mal{background:#fcebeb;color:#a32d2d}
+
+    .add-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1.5px dashed var(--bd2);border-radius:var(--rl);background:none;color:var(--tx2);font-size:14px;cursor:pointer;width:100%;margin-top:4px}
+    .add-btn:hover{background:var(--bg2)}
+
+    .history-card{border:0.5px solid var(--bd);border-radius:var(--rl);padding:12px 14px;margin-bottom:8px}
+    .history-date{font-size:11px;color:var(--tx2);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+    .history-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:13px;color:var(--tx)}
+
+    .profile-section{background:var(--bg2);border-radius:var(--rl);padding:16px;margin-bottom:12px;border:0.5px solid var(--bd)}
+    .profile-section h2{font-size:11px;font-weight:500;color:var(--tx2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
+    .form-group{margin-bottom:12px}
+    .form-group label{font-size:12px;color:var(--tx2);display:block;margin-bottom:4px}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:9px 11px;border:0.5px solid var(--bd2);border-radius:var(--r);font-size:14px;background:var(--bg);color:var(--tx);outline:none}
+    .form-group input:focus,.form-group select:focus{border-color:var(--ac)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--bg);border-radius:20px 20px 0 0;padding:20px 16px;padding-bottom:calc(20px + env(safe-area-inset-bottom));width:100%;max-height:90vh;overflow-y:auto}
+    .modal-handle{width:40px;height:4px;background:var(--bd2);border-radius:2px;margin:0 auto 16px}
+    .modal h3{font-size:16px;font-weight:500;color:var(--tx);margin-bottom:16px}
+    .modal-actions{display:flex;gap:8px;margin-top:16px}
+
+    .emoji-grid{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+    .emoji-opt{font-size:24px;padding:6px;border-radius:8px;border:1.5px solid transparent;cursor:pointer;line-height:1}
+    .emoji-opt.selected{border-color:var(--ac);background:var(--ac-l)}
+
+    .prog-options{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .prog-opt{padding:6px 12px;border-radius:20px;border:0.5px solid var(--bd);font-size:12px;background:var(--bg2);color:var(--tx2);cursor:pointer;transition:all .15s}
+    .prog-opt.sel-excelente{background:#eaf3de;color:#3b6d11;border-color:#c0dd97;font-weight:500}
+    .prog-opt.sel-bien{background:#e6f1fb;color:#185fa5;border-color:#b5d4f4;font-weight:500}
+    .prog-opt.sel-regular{background:#faeeda;color:#854f0b;border-color:#fac775;font-weight:500}
+    .prog-opt.sel-mal{background:#fcebeb;color:#a32d2d;border-color:#f7c1c1;font-weight:500}
+
+    .timer-display{font-size:64px;font-weight:500;color:var(--ac);text-align:center;margin:24px 0;font-variant-numeric:tabular-nums;letter-spacing:-2px}
+
+    .empty{text-align:center;padding:40px 20px;color:var(--tx2)}
+    .empty i{font-size:48px;display:block;margin-bottom:10px;opacity:.3}
+    .empty p{font-size:14px}
+
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;transition:transform .3s;z-index:999;pointer-events:none;white-space:nowrap}
+    .toast.show{transform:translateX(-50%) translateY(0)}
+
+    /* CHART */
+    .chart-card{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rl);padding:14px;margin-bottom:12px}
+    .chart-title{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:4px}
+    .chart-sub{font-size:11px;color:var(--tx2);margin-bottom:12px}
+    .chart-wrap{position:relative;height:180px}
+    .ex-selector{width:100%;padding:8px 10px;border:0.5px solid var(--bd2);border-radius:var(--r);font-size:13px;background:var(--bg);color:var(--tx);margin-bottom:12px;outline:none}
+
+    /* NOTIFICACIONES */
+    .notif-card{background:var(--bg2);border-radius:var(--rl);padding:16px;margin-bottom:10px;border:0.5px solid var(--bd)}
+    .notif-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+    .toggle input{opacity:0;width:0;height:0}
+    .toggle-slider{position:absolute;inset:0;background:var(--bd2);border-radius:12px;transition:.3s;cursor:pointer}
+    .toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s}
+    .toggle input:checked + .toggle-slider{background:var(--ac)}
+    .toggle input:checked + .toggle-slider:before{transform:translateX(20px)}
+    .notif-label{font-size:14px;color:var(--tx);font-weight:500}
+    .notif-sub{font-size:12px;color:var(--tx2);margin-top:2px}
+    .time-select{padding:7px 10px;border:0.5px solid var(--bd2);border-radius:var(--r);font-size:13px;background:var(--bg);color:var(--tx);outline:none}
+
+    .progress-bar-wrap{margin:6px 0}
+    .progress-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);margin-bottom:3px}
+    .progress-bar{height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
+    .progress-bar-fill{height:100%;background:var(--ac);border-radius:3px;transition:width .4s ease}
+
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+    .metric-box{background:var(--bg2);border-radius:var(--r);padding:12px;text-align:center}
+    .metric-val{font-size:22px;font-weight:500;color:var(--tx)}
+    .metric-label{font-size:11px;color:var(--tx2);margin-top:2px}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="avatar" id="user-avatar">G</div>
+    <div class="header-info">
+      <div class="header-sub">Bienvenido de vuelta</div>
+      <div class="header-name" id="user-name-header">GymTracker</div>
+    </div>
+    <span class="day-badge" id="today-badge">---</span>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showSection('rutina')"><i class="ti ti-barbell"></i>Rutina</button>
+    <button class="nav-btn" onclick="showSection('progreso')"><i class="ti ti-chart-line"></i>Progreso</button>
+    <button class="nav-btn" onclick="showSection('historial')"><i class="ti ti-calendar"></i>Historial</button>
+    <button class="nav-btn" onclick="showSection('ajustes')"><i class="ti ti-settings"></i>Ajustes</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- RUTINA -->
+    <div class="section active" id="sec-rutina">
+      <div class="day-tabs" id="day-tabs"></div>
+      <div id="routine-list"></div>
+      <button class="add-btn" onclick="openAddExercise()"><i class="ti ti-plus"></i> Agregar ejercicio</button>
+    </div>
+
+    <!-- PROGRESO -->
+    <div class="section" id="sec-progreso">
+      <div class="chart-card">
+        <div class="chart-title"><i class="ti ti-trending-up" style="font-size:16px;vertical-align:-2px"></i> Progreso de peso</div>
+        <div class="chart-sub">Evolución del peso por ejercicio</div>
+        <select class="ex-selector" id="chart-ex-sel" onchange="renderChart()"></select>
+        <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><i class="ti ti-chart-bar" style="font-size:16px;vertical-align:-2px"></i> Rendimiento semanal</div>
+        <div class="chart-sub">Sesiones por calidad</div>
+        <div class="chart-wrap"><canvas id="perfChart"></canvas></div>
+      </div>
+      <div class="stat-grid" id="prog-stats"></div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="section" id="sec-historial">
+      <div id="history-list"></div>
+    </div>
+
+    <!-- AJUSTES -->
+    <div class="section" id="sec-ajustes">
+      <!-- PERFIL -->
+      <div class="profile-section">
+        <h2>Mis datos</h2>
+        <div class="form-group"><label>Nombre completo</label><input id="p-name" type="text" placeholder="Tu nombre"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Edad</label><input id="p-age" type="number" placeholder="años"></div>
+          <div class="form-group"><label>Peso corporal (kg)</label><input id="p-weight" type="number" placeholder="kg" step="0.5"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Estatura (cm)</label><input id="p-height" type="number" placeholder="cm"></div>
+          <div class="form-group"><label>Objetivo</label>
+            <select id="p-goal"><option>Ganancia muscular</option><option>Fuerza máxima</option><option>Resistencia</option><option>Definición</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="saveProfile()"><i class="ti ti-check"></i> Guardar perfil</button>
+      </div>
+
+      <!-- NOTIFICACIONES -->
+      <div class="profile-section">
+        <h2>Notificaciones de entrenamiento</h2>
+        <div class="notif-card">
+          <div class="notif-row">
+            <div><div class="notif-label">Recordatorio diario</div><div class="notif-sub">Recibe una notificación para entrenar</div></div>
+            <label class="toggle"><input type="checkbox" id="notif-toggle" onchange="toggleNotif()"><span class="toggle-slider"></span></label>
+          </div>
+          <div id="notif-config" style="display:none">
+            <div class="form-group" style="margin-bottom:8px"><label>Hora del recordatorio</label>
+              <input type="time" id="notif-time" value="07:00" onchange="saveNotifSettings()">
+            </div>
+            <div class="form-group" style="margin-bottom:0"><label>Días activos</label>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px" id="notif-days"></div>
+            </div>
+            <div id="notif-status" style="font-size:12px;color:var(--tx2);margin-top:10px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPORTAR -->
+      <div class="profile-section">
+        <h2>Exportar datos</h2>
+        <p style="font-size:13px;color:var(--tx2);margin-bottom:12px">Descarga tu historial completo de entrenamientos en formato CSV para abrirlo en Excel o Google Sheets.</p>
+        <button class="btn btn-success btn-block" onclick="exportCSV()"><i class="ti ti-download"></i> Exportar a CSV</button>
+        <button class="btn btn-secondary btn-block" style="margin-top:8px" onclick="exportJSON()"><i class="ti ti-file-code"></i> Exportar backup JSON</button>
+        <button class="btn btn-secondary btn-block" style="margin-top:8px" onclick="importJSON()"><i class="ti ti-upload"></i> Restaurar backup JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="doImport(event)">
+      </div>
+
+      <!-- DATOS -->
+      <div class="profile-section">
+        <h2>Estadísticas generales</h2>
+        <div id="stats-display"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EJERCICIO -->
+<div class="modal-overlay" id="modal-ex" onclick="overlayClose(event,'modal-ex')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modal-ex-title">Agregar ejercicio</h3>
+    <input type="hidden" id="edit-ex-id">
+    <div class="form-group"><label>Nombre del ejercicio</label><input id="ex-name" type="text" placeholder="Ej: Press de banca"></div>
+    <div class="form-group"><label>Grupo muscular</label>
+      <select id="ex-muscle"><option>Pecho</option><option>Espalda</option><option>Hombros</option><option>Bíceps</option><option>Tríceps</option><option>Piernas</option><option>Glúteos</option><option>Abdomen</option><option>Cardio</option></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Series</label><input id="ex-sets" type="number" value="3" min="1" max="20"></div>
+      <div class="form-group"><label>Repeticiones</label><input id="ex-reps" type="number" value="10" min="1" max="100"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Peso inicial (kg)</label><input id="ex-weight" type="number" value="20" min="0" step="0.5"></div>
+      <div class="form-group"><label>Descanso</label>
+        <select id="ex-rest"><option value="30">30 seg</option><option value="45">45 seg</option><option value="60" selected>1 min</option><option value="90">1:30 min</option><option value="120">2 min</option><option value="180">3 min</option><option value="240">4 min</option><option value="300">5 min</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Día</label>
+      <select id="ex-day"><option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option><option value="3">Jueves</option><option value="4">Viernes</option></select>
+    </div>
+    <div class="form-group"><label>Emoji de estado</label>
+      <div class="emoji-grid" id="emoji-grid">
+        <span class="emoji-opt" data-e="💪">💪</span><span class="emoji-opt" data-e="🔥">🔥</span>
+        <span class="emoji-opt" data-e="😤">😤</span><span class="emoji-opt" data-e="😅">😅</span>
+        <span class="emoji-opt" data-e="😰">😰</span><span class="emoji-opt" data-e="🏆">🏆</span>
+        <span class="emoji-opt" data-e="⬆️">⬆️</span><span class="emoji-opt" data-e="⚠️">⚠️</span>
+        <span class="emoji-opt" data-e="❌">❌</span><span class="emoji-opt" data-e="🎯">🎯</span>
+        <span class="emoji-opt" data-e="⚡">⚡</span><span class="emoji-opt" data-e="🧠">🧠</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1" onclick="closeModal('modal-ex')">Cancelar</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveExercise()"><i class="ti ti-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LOG -->
+<div class="modal-overlay" id="modal-log" onclick="overlayClose(event,'modal-log')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modal-log-title">Registrar sesión</h3>
+    <input type="hidden" id="log-ex-id">
+    <div class="form-row">
+      <div class="form-group"><label>Reps completadas</label><input id="log-reps" type="number" min="0"></div>
+      <div class="form-group"><label>Series completadas</label><input id="log-sets" type="number" min="0"></div>
+    </div>
+    <div class="form-group"><label>Peso usado (kg)</label><input id="log-weight" type="number" step="0.5" min="0"></div>
+    <div class="form-group"><label>¿Cómo te fue?</label>
+      <div class="prog-options">
+        <button class="prog-opt" onclick="selProg(this,'excelente')">🔥 Excelente</button>
+        <button class="prog-opt" onclick="selProg(this,'bien')">👍 Bien</button>
+        <button class="prog-opt" onclick="selProg(this,'regular')">😅 Regular</button>
+        <button class="prog-opt" onclick="selProg(this,'mal')">❌ Difícil</button>
+      </div>
+      <input type="hidden" id="log-prog">
+    </div>
+    <div class="form-group"><label>Notas (opcional)</label><input id="log-notes" type="text" placeholder="Ej: Aumenté 2.5kg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" style="flex:1" onclick="closeModal('modal-log')">Cancelar</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveLog()"><i class="ti ti-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TIMER -->
+<div class="modal-overlay" id="modal-timer" onclick="overlayClose(event,'modal-timer')">
+  <div class="modal" style="text-align:center">
+    <div class="modal-handle"></div>
+    <h3>⏱ Tiempo de descanso</h3>
+    <div class="timer-display" id="timer-display">01:00</div>
+    <p style="color:var(--tx2);font-size:13px;margin-bottom:20px">Descansa y prepárate para la siguiente serie 💪</p>
+    <button class="btn btn-secondary btn-block" onclick="closeModal('modal-timer')">Saltar descanso</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+let state = { profile:{}, exercises:[], logs:[], activeDay:0, notif:{enabled:false,time:'07:00',days:[1,2,3,4,5]} };
+let selectedEmoji = '💪';
+let timerInterval = null;
+let timerSecs = 0;
+let weightChart = null;
+let perfChart = null;
+
+function load() {
+  const s = localStorage.getItem('gymtracker_v1');
+  if (s) { try { const p = JSON.parse(s); state = {...state, ...p}; } catch(e){} }
+  if (!state.logs) state.logs = [];
+  if (!state.exercises) state.exercises = [];
+  if (!state.profile) state.profile = {};
+  if (state.activeDay === undefined) state.activeDay = 0;
+  if (!state.notif) state.notif = {enabled:false,time:'07:00',days:[1,2,3,4,5]};
+}
+function save() { localStorage.setItem('gymtracker_v1', JSON.stringify(state)); }
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const idx = ['rutina','progreso','historial','ajustes'].indexOf(id);
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  if (id === 'rutina') renderRoutine();
+  if (id === 'progreso') renderProgreso();
+  if (id === 'historial') renderHistory();
+  if (id === 'ajustes') renderAjustes();
+}
+
+function renderHeader() {
+  const p = state.profile;
+  const name = p.name || 'GymTracker';
+  document.getElementById('user-name-header').textContent = name;
+  const init = name.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase() || 'G';
+  document.getElementById('user-avatar').textContent = init;
+  const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  document.getElementById('today-badge').textContent = days[new Date().getDay()];
+}
+
+/* ── RUTINA ── */
+function renderRoutine() { renderDayTabs(); renderRoutineList(); }
+function renderDayTabs() {
+  document.getElementById('day-tabs').innerHTML =
+    DAYS.map((d,i) => `<button class="day-tab${i===state.activeDay?' active':''}" onclick="setDay(${i})">${d}</button>`).join('');
+}
+function setDay(i) { state.activeDay = i; save(); renderDayTabs(); renderRoutineList(); }
+function renderRoutineList() {
+  const exs = state.exercises.filter(e => e.day === state.activeDay);
+  const el = document.getElementById('routine-list');
+  if (!exs.length) { el.innerHTML = `<div class="empty"><i class="ti ti-dumbbell"></i><p>Sin ejercicios para este día</p></div>`; return; }
+  el.innerHTML = exs.map(buildExCard).join('');
+}
+function buildExCard(ex) {
+  const today = new Date().toDateString();
+  const last = state.logs.filter(l => l.exId === ex.id && l.date === today).slice(-1)[0];
+  const restLabel = fmtTime(ex.rest);
+  const progTag = last ? `<span class="prog-tag prog-${last.prog}">${last.prog}</span>` : '';
+  return `<div class="exercise-card">
+    <div class="ex-header">
+      <div class="ex-emoji">${ex.emoji||'💪'}</div>
+      <div style="flex:1"><div class="ex-name">${ex.name}</div><div class="ex-muscle">${ex.muscle} ${progTag}</div></div>
+      <button class="icon-btn" onclick="openEditExercise('${ex.id}')"><i class="ti ti-edit"></i></button>
+      <button class="icon-btn" onclick="deleteExercise('${ex.id}')"><i class="ti ti-trash"></i></button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-label">Series</div><div class="stat-val">${last?last.sets:ex.sets}<span class="stat-unit">/${ex.sets}</span></div></div>
+      <div class="stat-box"><div class="stat-label">Reps</div><div class="stat-val">${last?last.reps:ex.reps}<span class="stat-unit">/${ex.reps}</span></div></div>
+      <div class="stat-box"><div class="stat-label">Peso</div><div class="stat-val">${last?last.weight:ex.weight}<span class="stat-unit">kg</span></div></div>
+    </div>
+    <div class="card-btns">
+      <button class="btn btn-primary" onclick="openLog('${ex.id}')"><i class="ti ti-pencil"></i> Registrar</button>
+      <button class="btn btn-secondary" onclick="startTimer(${ex.rest})"><i class="ti ti-clock"></i> ${restLabel}</button>
+    </div>
+  </div>`;
+}
+
+/* ── PROGRESO / GRÁFICAS ── */
+function renderProgreso() {
+  fillExSelector();
+  renderChart();
+  renderPerfChart();
+  renderProgStats();
+}
+function fillExSelector() {
+  const sel = document.getElementById('chart-ex-sel');
+  const cur = sel.value;
+  sel.innerHTML = state.exercises.length
+    ? state.exercises.map(ex => `<option value="${ex.id}">${ex.emoji||'💪'} ${ex.name}</option>`).join('')
+    : '<option value="">Sin ejercicios aún</option>';
+  if (cur) sel.value = cur;
+}
+function renderChart() {
+  const exId = document.getElementById('chart-ex-sel').value;
+  const logs = state.logs.filter(l => l.exId === exId).slice(-20);
+  const labels = logs.map(l => { const d = new Date(l.date); return `${d.getDate()}/${d.getMonth()+1}`; });
+  const data = logs.map(l => l.weight);
+  const ctx = document.getElementById('weightChart').getContext('2d');
+  if (weightChart) weightChart.destroy();
+  weightChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Peso (kg)',
+        data,
+        borderColor: '#5c3abd',
+        backgroundColor: 'rgba(92,58,189,0.1)',
+        borderWidth: 2,
+        pointBackgroundColor: '#5c3abd',
+        pointRadius: 4,
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, color: '#888' }, grid: { display: false } },
+        y: { ticks: { font: { size: 10 }, color: '#888' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+      }
+    }
+  });
+}
+function renderPerfChart() {
+  const counts = { excelente:0, bien:0, regular:0, mal:0 };
+  state.logs.forEach(l => { if (counts[l.prog] !== undefined) counts[l.prog]++; });
+  const ctx = document.getElementById('perfChart').getContext('2d');
+  if (perfChart) perfChart.destroy();
+  perfChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['🔥 Excelente','👍 Bien','😅 Regular','❌ Difícil'],
+      datasets: [{
+        data: [counts.excelente, counts.bien, counts.regular, counts.mal],
+        backgroundColor: ['rgba(59,109,17,0.7)','rgba(24,95,165,0.7)','rgba(133,79,11,0.7)','rgba(163,45,45,0.7)'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, color: '#888' }, grid: { display: false } },
+        y: { ticks: { font: { size: 10 }, color: '#888', stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.05)' } }
+      }
+    }
+  });
+}
+function renderProgStats() {
+  const total = state.logs.length;
+  const sessions = new Set(state.logs.map(l => l.date)).size;
+  const excelente = state.logs.filter(l => l.prog === 'excelente').length;
+  const pct = total ? Math.round(excelente / total * 100) : 0;
+  const maxWeight = state.logs.length ? Math.max(...state.logs.map(l => l.weight)) : 0;
+  document.getElementById('prog-stats').innerHTML = `
+    <div class="metric-box"><div class="metric-val">${sessions}</div><div class="metric-label">Sesiones totales</div></div>
+    <div class="metric-box"><div class="metric-val">${total}</div><div class="metric-label">Registros</div></div>
+    <div class="metric-box"><div class="metric-val">${pct}%</div><div class="metric-label">Rendimiento excelente</div></div>
+    <div class="metric-box"><div class="metric-val">${maxWeight}kg</div><div class="metric-label">Mayor peso registrado</div></div>`;
+}
+
+/* ── HISTORIAL ── */
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (!state.logs.length) { el.innerHTML = `<div class="empty"><i class="ti ti-calendar"></i><p>Sin registros aún</p></div>`; return; }
+  const byDate = {};
+  state.logs.forEach(l => { if (!byDate[l.date]) byDate[l.date] = []; byDate[l.date].push(l); });
+  const sorted = Object.keys(byDate).sort((a,b) => new Date(b)-new Date(a)).slice(0,20);
+  el.innerHTML = sorted.map(date => {
+    const logs = byDate[date];
+    return `<div class="history-card">
+      <div class="history-date"><i class="ti ti-calendar"></i> ${date} — ${logs.length} ejercicio${logs.length>1?'s':''}</div>
+      ${logs.map(l => {
+        const ex = state.exercises.find(e => e.id === l.exId) || {name:'Ejercicio',emoji:'💪'};
+        return `<div class="history-row"><span>${ex.emoji||'💪'} ${ex.name}</span>
+          <span class="prog-tag prog-${l.prog||'bien'}">${l.sets}s × ${l.reps}r · ${l.weight}kg</span></div>
+          ${l.notes ? `<div style="font-size:11px;color:var(--tx2);padding:2px 0 4px 4px">📝 ${l.notes}</div>` : ''}`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+/* ── AJUSTES ── */
+function renderAjustes() {
+  const p = state.profile;
+  if (p.name) document.getElementById('p-name').value = p.name;
+  if (p.age) document.getElementById('p-age').value = p.age;
+  if (p.weight) document.getElementById('p-weight').value = p.weight;
+  if (p.height) document.getElementById('p-height').value = p.height;
+  if (p.goal) document.getElementById('p-goal').value = p.goal;
+  renderNotifUI();
+  renderStats();
+}
+function saveProfile() {
+  state.profile = {
+    name: document.getElementById('p-name').value.trim(),
+    age: document.getElementById('p-age').value,
+    weight: document.getElementById('p-weight').value,
+    height: document.getElementById('p-height').value,
+    goal: document.getElementById('p-goal').value
+  };
+  save(); renderHeader(); showToast('Perfil guardado ✓');
+}
+function renderStats() {
+  const total = state.logs.length;
+  const sessions = new Set(state.logs.map(l => l.date)).size;
+  const excelente = state.logs.filter(l => l.prog === 'excelente').length;
+  const pct = total ? Math.round(excelente / total * 100) : 0;
+  document.getElementById('stats-display').innerHTML = `
+    <div class="stat-grid">
+      <div class="metric-box"><div class="metric-val">${sessions}</div><div class="metric-label">Sesiones</div></div>
+      <div class="metric-box"><div class="metric-val">${state.exercises.length}</div><div class="metric-label">Ejercicios</div></div>
+      <div class="metric-box"><div class="metric-val">${total}</div><div class="metric-label">Registros</div></div>
+      <div class="metric-box"><div class="metric-val">${pct}%</div><div class="metric-label">Excelentes</div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-label"><span>Rendimiento excelente</span><span>${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+}
+
+/* ── NOTIFICACIONES ── */
+function renderNotifUI() {
+  const n = state.notif;
+  document.getElementById('notif-toggle').checked = n.enabled;
+  document.getElementById('notif-time').value = n.time || '07:00';
+  document.getElementById('notif-config').style.display = n.enabled ? 'block' : 'none';
+  const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  document.getElementById('notif-days').innerHTML = [0,1,2,3,4,5,6].map(i => {
+    const active = (n.days||[]).includes(i);
+    return `<button onclick="toggleDay(${i})" id="nday-${i}" style="padding:5px 10px;border-radius:20px;border:0.5px solid var(--bd2);font-size:12px;cursor:pointer;background:${active?'var(--ac)':'var(--bg2)'};color:${active?'#fff':'var(--tx2)'}">${dayNames[i]}</button>`;
+  }).join('');
+  if (n.enabled) updateNotifStatus();
+}
+function toggleDay(i) {
+  const days = state.notif.days || [];
+  const idx = days.indexOf(i);
+  if (idx >= 0) days.splice(idx,1); else days.push(i);
+  state.notif.days = days;
+  save(); renderNotifUI(); scheduleNotifications();
+}
+async function toggleNotif() {
+  const enabled = document.getElementById('notif-toggle').checked;
+  if (enabled) {
+    if (!('Notification' in window)) { showToast('Tu navegador no soporta notificaciones'); document.getElementById('notif-toggle').checked = false; return; }
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') { showToast('Permiso de notificaciones denegado'); document.getElementById('notif-toggle').checked = false; return; }
+  }
+  state.notif.enabled = enabled;
+  save(); renderNotifUI();
+  if (enabled) { scheduleNotifications(); showToast('Notificaciones activadas ✓'); }
+  else { clearNotifSchedule(); showToast('Notificaciones desactivadas'); }
+}
+function saveNotifSettings() {
+  state.notif.time = document.getElementById('notif-time').value;
+  save(); scheduleNotifications(); updateNotifStatus();
+}
+function scheduleNotifications() {
+  clearNotifSchedule();
+  if (!state.notif.enabled) return;
+  const [h, m] = (state.notif.time || '07:00').split(':').map(Number);
+  const now = new Date();
+  const next = new Date();
+  next.setHours(h, m, 0, 0);
+  if (next <= now) next.setDate(next.getDate() + 1);
+  const ms = next - now;
+  const tid = setTimeout(() => {
+    const day = new Date().getDay();
+    if ((state.notif.days || []).includes(day)) {
+      new Notification('GymTracker 💪', { body: '¡Es hora de entrenar! Tu rutina de hoy te espera.', icon: 'data:image/png;base64,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' });
+    }
+    scheduleNotifications();
+  }, ms);
+  localStorage.setItem('gymtracker_notif_tid', tid);
+  updateNotifStatus();
+}
+function clearNotifSchedule() {
+  const tid = localStorage.getItem('gymtracker_notif_tid');
+  if (tid) clearTimeout(parseInt(tid));
+}
+function updateNotifStatus() {
+  const el = document.getElementById('notif-status');
+  if (!el) return;
+  if (!state.notif.enabled) { el.textContent = ''; return; }
+  const [h, m] = (state.notif.time || '07:00').split(':').map(Number);
+  const now = new Date();
+  const next = new Date(); next.setHours(h, m, 0, 0);
+  if (next <= now) next.setDate(next.getDate() + 1);
+  const diff = Math.round((next - now) / 60000);
+  const hrs = Math.floor(diff / 60), mins = diff % 60;
+  el.textContent = `Próxima notificación en ${hrs > 0 ? hrs + 'h ' : ''}${mins}min`;
+}
+
+/* ── EXPORTAR CSV ── */
+function exportCSV() {
+  if (!state.logs.length) { showToast('Sin datos para exportar'); return; }
+  const header = ['Fecha','Ejercicio','Grupo muscular','Series objetivo','Reps objetivo','Series realizadas','Reps realizadas','Peso (kg)','Rendimiento','Notas'];
+  const rows = state.logs.map(l => {
+    const ex = state.exercises.find(e => e.id === l.exId) || {};
+    return [l.date, ex.name||'', ex.muscle||'', ex.sets||'', ex.reps||'', l.sets, l.reps, l.weight, l.prog||'', l.notes||''].map(v => `"${String(v).replace(/"/g,'""')}"`).join(',');
+  });
+  const csv = [header.join(','), ...rows].join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `gymtracker_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('CSV exportado ✓');
+}
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `gymtracker_backup_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('Backup exportado ✓');
+}
+function importJSON() { document.getElementById('import-file').click(); }
+function doImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (!imported.exercises) throw new Error('Formato inválido');
+      if (!confirm(`¿Restaurar backup? Se reemplazarán todos los datos actuales.\n${imported.exercises.length} ejercicios, ${imported.logs.length} registros.`)) return;
+      state = { ...state, ...imported };
+      save(); renderHeader(); renderRoutine(); showToast('Backup restaurado ✓');
+    } catch(err) { showToast('Error al leer el archivo'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+/* ── EXERCISE MODAL ── */
+function openAddExercise() {
+  document.getElementById('modal-ex-title').textContent = 'Agregar ejercicio';
+  document.getElementById('edit-ex-id').value = '';
+  document.getElementById('ex-name').value = '';
+  document.getElementById('ex-muscle').value = 'Pecho';
+  document.getElementById('ex-sets').value = 3;
+  document.getElementById('ex-reps').value = 10;
+  document.getElementById('ex-weight').value = 20;
+  document.getElementById('ex-rest').value = 60;
+  document.getElementById('ex-day').value = state.activeDay;
+  setEmoji('💪');
+  openModal('modal-ex');
+}
+function openEditExercise(id) {
+  const ex = state.exercises.find(e => e.id === id);
+  if (!ex) return;
+  document.getElementById('modal-ex-title').textContent = 'Editar ejercicio';
+  document.getElementById('edit-ex-id').value = id;
+  document.getElementById('ex-name').value = ex.name;
+  document.getElementById('ex-muscle').value = ex.muscle;
+  document.getElementById('ex-sets').value = ex.sets;
+  document.getElementById('ex-reps').value = ex.reps;
+  document.getElementById('ex-weight').value = ex.weight;
+  document.getElementById('ex-rest').value = ex.rest;
+  document.getElementById('ex-day').value = ex.day;
+  setEmoji(ex.emoji || '💪');
+  openModal('modal-ex');
+}
+function setEmoji(e) {
+  selectedEmoji = e;
+  document.querySelectorAll('.emoji-opt').forEach(el => el.classList.toggle('selected', el.dataset.e === e));
+}
+function saveExercise() {
+  const id = document.getElementById('edit-ex-id').value;
+  const name = document.getElementById('ex-name').value.trim();
+  if (!name) { showToast('⚠️ Ingresa un nombre'); return; }
+  const ex = {
+    id: id || Date.now().toString(), name,
+    muscle: document.getElementById('ex-muscle').value,
+    sets: parseInt(document.getElementById('ex-sets').value) || 3,
+    reps: parseInt(document.getElementById('ex-reps').value) || 10,
+    weight: parseFloat(document.getElementById('ex-weight').value) || 0,
+    rest: parseInt(document.getElementById('ex-rest').value) || 60,
+    emoji: selectedEmoji,
+    day: parseInt(document.getElementById('ex-day').value)
+  };
+  if (id) { const i = state.exercises.findIndex(e => e.id === id); if (i >= 0) state.exercises[i] = ex; }
+  else state.exercises.push(ex);
+  save(); closeModal('modal-ex'); renderRoutine();
+  showToast(id ? 'Ejercicio actualizado ✓' : 'Ejercicio agregado ✓');
+}
+function deleteExercise(id) {
+  if (!confirm('¿Eliminar este ejercicio y sus registros?')) return;
+  state.exercises = state.exercises.filter(e => e.id !== id);
+  state.logs = state.logs.filter(l => l.exId !== id);
+  save(); renderRoutine(); showToast('Eliminado');
+}
+
+/* ── LOG MODAL ── */
+function openLog(exId) {
+  const ex = state.exercises.find(e => e.id === exId);
+  document.getElementById('modal-log-title').textContent = `${ex.emoji||'💪'} ${ex.name}`;
+  document.getElementById('log-ex-id').value = exId;
+  document.getElementById('log-reps').value = ex.reps;
+  document.getElementById('log-sets').value = ex.sets;
+  document.getElementById('log-weight').value = ex.weight;
+  document.getElementById('log-prog').value = '';
+  document.getElementById('log-notes').value = '';
+  document.querySelectorAll('.prog-opt').forEach(b => b.className = 'prog-opt');
+  openModal('modal-log');
+}
+function selProg(btn, val) {
+  document.querySelectorAll('.prog-opt').forEach(b => b.className = 'prog-opt');
+  btn.className = `prog-opt sel-${val}`;
+  document.getElementById('log-prog').value = val;
+}
+function saveLog() {
+  const exId = document.getElementById('log-ex-id').value;
+  const log = {
+    id: Date.now().toString(), exId,
+    date: new Date().toDateString(),
+    reps: parseInt(document.getElementById('log-reps').value) || 0,
+    sets: parseInt(document.getElementById('log-sets').value) || 0,
+    weight: parseFloat(document.getElementById('log-weight').value) || 0,
+    prog: document.getElementById('log-prog').value || 'bien',
+    notes: document.getElementById('log-notes').value.trim()
+  };
+  state.logs.push(log); save(); closeModal('modal-log'); renderRoutineList();
+  showToast('Sesión registrada ✓');
+}
+
+/* ── TIMER ── */
+function startTimer(secs) {
+  timerSecs = secs; clearInterval(timerInterval); updateTimer(); openModal('modal-timer');
+  timerInterval = setInterval(() => {
+    timerSecs--;
+    if (timerSecs <= 0) {
+      clearInterval(timerInterval); closeModal('modal-timer');
+      showToast('¡Descanso terminado! 💪');
+      if ('vibrate' in navigator) navigator.vibrate([200,100,200]);
+      return;
+    }
+    updateTimer();
+  }, 1000);
+}
+function updateTimer() {
+  const m = Math.floor(timerSecs/60), s = timerSecs%60;
+  document.getElementById('timer-display').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function fmtTime(s) {
+  const m = Math.floor(s/60), sec = s%60;
+  return m > 0 ? `${m}:${String(sec).padStart(2,'0')} min` : `${sec} seg`;
+}
+
+/* ── MODALES ── */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); if (id==='modal-timer') clearInterval(timerInterval); }
+function overlayClose(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+/* ── EMOJI ── */
+document.querySelectorAll('.emoji-opt').forEach(el => el.addEventListener('click', () => setEmoji(el.dataset.e)));
+
+/* ── TOAST ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ── INIT ── */
+load(); renderHeader(); renderRoutine();
+
+if (!state.exercises.length) {
+  state.exercises = [
+    {id:'d1',name:'Press de banca',muscle:'Pecho',sets:4,reps:10,weight:60,rest:90,emoji:'💪',day:0},
+    {id:'d2',name:'Sentadilla',muscle:'Piernas',sets:4,reps:8,weight:80,rest:120,emoji:'🔥',day:0},
+    {id:'d3',name:'Peso muerto',muscle:'Espalda',sets:3,reps:6,weight:100,rest:180,emoji:'😤',day:1},
+    {id:'d4',name:'Press militar',muscle:'Hombros',sets:3,reps:12,weight:40,rest:60,emoji:'💪',day:2},
+    {id:'d5',name:'Curl bíceps',muscle:'Bíceps',sets:3,reps:12,weight:20,rest:60,emoji:'💪',day:3},
+    {id:'d6',name:'Extensión tríceps',muscle:'Tríceps',sets:3,reps:12,weight:25,rest:60,emoji:'💪',day:4}
+  ];
+  save(); renderRoutine();
+}
+
+if (state.notif && state.notif.enabled) scheduleNotifications();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
