@@ -1,12 +1,11 @@
-const CACHE_NAME = 'gymtracker-v1';
+const CACHE_NAME = 'gymvibra-v1';
+const BASE = '/gymvibra/';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
+  BASE,
+  BASE + 'index.html',
+  BASE + 'manifest.json',
   'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css',
-  'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/fonts/tabler-icons.woff2'
+  'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js'
 ];
 
 self.addEventListener('install', e => {
@@ -34,7 +33,7 @@ self.addEventListener('fetch', e => {
         const clone = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
         return response;
-      }).catch(() => caches.match('./index.html'));
+      }).catch(() => caches.match(BASE + 'index.html'));
     })
   );
 });
