@@ -246,6 +246,16 @@
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="doImport(event)">
       </div>
 
+      <!-- LIMPIAR -->
+      <div class="profile-section">
+        <h2>Gestionar rutina</h2>
+        <p style="font-size:13px;color:var(--tx2);margin-bottom:12px">Elimina ejercicios o registros de forma rápida.</p>
+        <button class="btn btn-block" style="background:#faeeda;color:#854f0b;border:0.5px solid #fac775;margin-bottom:8px" onclick="clearDayExercises()"><i class="ti ti-trash"></i> Eliminar ejercicios del día actual</button>
+        <button class="btn btn-block" style="background:#faeeda;color:#854f0b;border:0.5px solid #fac775;margin-bottom:8px" onclick="clearAllExercises()"><i class="ti ti-trash"></i> Eliminar todos los ejercicios</button>
+        <button class="btn btn-block" style="background:#fcebeb;color:#a32d2d;border:0.5px solid #f7c1c1;margin-bottom:8px" onclick="clearLogs()"><i class="ti ti-eraser"></i> Borrar historial de registros</button>
+        <button class="btn btn-block" style="background:#fcebeb;color:#a32d2d;border:0.5px solid #f7c1c1" onclick="resetAll()"><i class="ti ti-refresh"></i> Restablecer todo (borrar todo)</button>
+      </div>
+
       <!-- DATOS -->
       <div class="profile-section">
         <h2>Estadísticas generales</h2>
@@ -660,6 +670,35 @@ function exportJSON() {
   showToast('Backup exportado ✓');
 }
 function importJSON() { document.getElementById('import-file').click(); }
+/* ── LIMPIAR ── */
+function clearDayExercises() {
+  const day = state.activeDay;
+  const exs = state.exercises.filter(e => e.day === day);
+  if (!exs.length) { showToast('No hay ejercicios en este día'); return; }
+  if (!confirm(`¿Eliminar los ${exs.length} ejercicio(s) del ${DAYS[day]}?`)) return;
+  const ids = exs.map(e => e.id);
+  state.exercises = state.exercises.filter(e => e.day !== day);
+  state.logs = state.logs.filter(l => !ids.includes(l.exId));
+  save(); renderRoutine(); showToast(`Ejercicios del ${DAYS[day]} eliminados`);
+}
+function clearAllExercises() {
+  if (!state.exercises.length) { showToast('No hay ejercicios'); return; }
+  if (!confirm(`¿Eliminar todos los ejercicios (${state.exercises.length}) y sus registros?`)) return;
+  state.exercises = []; state.logs = [];
+  save(); renderRoutine(); showToast('Todos los ejercicios eliminados');
+}
+function clearLogs() {
+  if (!state.logs.length) { showToast('No hay registros'); return; }
+  if (!confirm(`¿Borrar todo el historial de registros (${state.logs.length} entradas)?`)) return;
+  state.logs = [];
+  save(); showToast('Historial borrado');
+}
+function resetAll() {
+  if (!confirm('⚠️ ¿Restablecer TODO? Se borrarán ejercicios, registros y perfil. Esta acción no se puede deshacer.')) return;
+  state = { profile:{}, exercises:[], logs:[], activeDay:0, notif:{enabled:false,time:'07:00',days:[1,2,3,4,5]} };
+  save(); renderHeader(); renderRoutine(); showToast('App restablecida');
+}
+
 function doImport(e) {
   const file = e.target.files[0];
   if (!file) return;
