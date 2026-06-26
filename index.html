@@ -147,6 +147,17 @@
     .metric-box{background:var(--bg2);border-radius:var(--r);padding:12px;text-align:center}
     .metric-val{font-size:22px;font-weight:500;color:var(--tx)}
     .metric-label{font-size:11px;color:var(--tx2);margin-top:2px}
+
+    /* BISERIE */
+    .biserie-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg2);border-radius:var(--r);margin-bottom:12px;border:0.5px solid var(--bd)}
+    .biserie-toggle-label{font-size:13px;font-weight:500;color:var(--tx);display:flex;align-items:center;gap:6px}
+    .biserie-block{border:1.5px solid #F15A22;border-radius:var(--rl);padding:12px;margin-bottom:12px;background:rgba(241,90,34,0.04)}
+    .biserie-header{font-size:12px;font-weight:500;color:#F15A22;margin-bottom:10px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.04em}
+    .biserie-divider{display:flex;align-items:center;gap:8px;margin:10px 0}
+    .biserie-divider-line{flex:1;height:1px;background:var(--bd)}
+    .biserie-divider-label{font-size:11px;color:var(--tx2);white-space:nowrap}
+    .ex-card-biserie{background:rgba(241,90,34,0.08);border:0.5px solid rgba(241,90,34,0.3);border-radius:8px;padding:8px 10px;margin-top:8px}
+    .ex-card-biserie-label{font-size:10px;font-weight:500;color:#F15A22;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
   </style>
 </head>
 <body>
@@ -288,6 +299,39 @@
     <div class="form-group"><label>Día</label>
       <select id="ex-day"><option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option><option value="3">Jueves</option><option value="4">Viernes</option></select>
     </div>
+
+    <!-- TOGGLE BISERIE -->
+    <div class="biserie-toggle-row">
+      <span class="biserie-toggle-label">⚡ Es biserie (superserie)</span>
+      <label class="toggle"><input type="checkbox" id="ex-biserie" onchange="toggleBiserieBlock()"><span class="toggle-slider"></span></label>
+    </div>
+
+    <!-- BLOQUE EJERCICIO B -->
+    <div id="biserie-block" style="display:none">
+      <div class="biserie-block">
+        <div class="biserie-header">⚡ Ejercicio B — Biserie</div>
+        <div class="form-group"><label>Nombre del ejercicio B</label><input id="ex-b-name" type="text" placeholder="Ej: Curl martillo"></div>
+        <div class="form-group"><label>Grupo muscular B</label>
+          <select id="ex-b-muscle"><option>Pecho</option><option>Espalda</option><option>Hombros</option><option>Bíceps</option><option>Tríceps</option><option>Piernas</option><option>Glúteos</option><option>Abdomen</option><option>Cardio</option></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Series B</label><input id="ex-b-sets" type="number" value="3" min="1" max="20"></div>
+          <div class="form-group"><label>Repeticiones B</label><input id="ex-b-reps" type="number" value="10" min="1" max="100"></div>
+        </div>
+        <div class="form-group"><label>Peso inicial B (kg)</label><input id="ex-b-weight" type="number" value="15" min="0" step="0.5"></div>
+        <div class="biserie-divider"><div class="biserie-divider-line"></div><span class="biserie-divider-label">¿Descanso entre A y B?</span><div class="biserie-divider-line"></div></div>
+        <div class="form-row">
+          <div style="display:flex;align-items:center;gap:8px">
+            <label class="toggle"><input type="checkbox" id="ex-b-hasrest"><span class="toggle-slider"></span></label>
+            <span style="font-size:12px;color:var(--tx2)">Activar descanso</span>
+          </div>
+          <div class="form-group" style="margin-bottom:0"><label>Tiempo</label>
+            <select id="ex-b-rest"><option value="15">15 seg</option><option value="30" selected>30 seg</option><option value="45">45 seg</option><option value="60">1 min</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group"><label>Emoji de estado</label>
       <div class="emoji-grid" id="emoji-grid">
         <span class="emoji-opt" data-e="💪">💪</span><span class="emoji-opt" data-e="🔥">🔥</span>
@@ -311,12 +355,31 @@
     <div class="modal-handle"></div>
     <h3 id="modal-log-title">Registrar sesión</h3>
     <input type="hidden" id="log-ex-id">
-    <div class="form-row">
-      <div class="form-group"><label>Reps completadas</label><input id="log-reps" type="number" min="0"></div>
-      <div class="form-group"><label>Series completadas</label><input id="log-sets" type="number" min="0"></div>
+
+    <!-- EJERCICIO A -->
+    <div id="log-a-section">
+      <div style="font-size:11px;font-weight:500;color:var(--tx2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px" id="log-a-label">Ejercicio</div>
+      <div class="form-row">
+        <div class="form-group"><label>Reps completadas</label><input id="log-reps" type="number" min="0"></div>
+        <div class="form-group"><label>Series completadas</label><input id="log-sets" type="number" min="0"></div>
+      </div>
+      <div class="form-group"><label>Peso usado (kg)</label><input id="log-weight" type="number" step="0.5" min="0"></div>
     </div>
-    <div class="form-group"><label>Peso usado (kg)</label><input id="log-weight" type="number" step="0.5" min="0"></div>
-    <div class="form-group"><label>¿Cómo te fue?</label>
+
+    <!-- EJERCICIO B (biserie) -->
+    <div id="log-b-section" style="display:none">
+      <div class="biserie-divider"><div class="biserie-divider-line"></div><span class="biserie-divider-label">⚡ Biserie</span><div class="biserie-divider-line"></div></div>
+      <div class="ex-card-biserie">
+        <div class="ex-card-biserie-label" id="log-b-label">Ejercicio B</div>
+        <div class="form-row">
+          <div class="form-group"><label>Reps B</label><input id="log-b-reps" type="number" min="0"></div>
+          <div class="form-group"><label>Series B</label><input id="log-b-sets" type="number" min="0"></div>
+        </div>
+        <div class="form-group" style="margin-bottom:0"><label>Peso B (kg)</label><input id="log-b-weight" type="number" step="0.5" min="0"></div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:12px"><label>¿Cómo te fue en general?</label>
       <div class="prog-options">
         <button class="prog-opt" onclick="selProg(this,'excelente')">🔥 Excelente</button>
         <button class="prog-opt" onclick="selProg(this,'bien')">👍 Bien</button>
@@ -406,19 +469,38 @@ function buildExCard(ex) {
   const last = state.logs.filter(l => l.exId === ex.id && l.date === today).slice(-1)[0];
   const restLabel = fmtTime(ex.rest);
   const progTag = last ? `<span class="prog-tag prog-${last.prog}">${last.prog}</span>` : '';
+  const hasBiserie = !!(ex.biserie && ex.biserie.name);
+  const biserieTag = hasBiserie ? `<span style="font-size:10px;background:rgba(241,90,34,0.12);color:#F15A22;border:0.5px solid rgba(241,90,34,0.3);padding:1px 7px;border-radius:20px;margin-left:4px">⚡ biserie</span>` : '';
+
+  const biserieBlock = hasBiserie ? `
+    <div class="ex-card-biserie">
+      <div class="ex-card-biserie-label">⚡ B — ${ex.biserie.name}</div>
+      <div class="stats-row" style="margin-bottom:0">
+        <div class="stat-box"><div class="stat-label">Series</div><div class="stat-val">${last&&last.biserie?last.biserie.sets:ex.biserie.sets}<span class="stat-unit">/${ex.biserie.sets}</span></div></div>
+        <div class="stat-box"><div class="stat-label">Reps</div><div class="stat-val">${last&&last.biserie?last.biserie.reps:ex.biserie.reps}<span class="stat-unit">/${ex.biserie.reps}</span></div></div>
+        <div class="stat-box"><div class="stat-label">Peso</div><div class="stat-val">${last&&last.biserie?last.biserie.weight:ex.biserie.weight}<span class="stat-unit">kg</span></div></div>
+      </div>
+      ${ex.biserie.hasRest ? `<div style="font-size:11px;color:var(--tx2);margin-top:6px"><i class="ti ti-clock" style="font-size:12px"></i> Descanso entre A y B: ${fmtTime(ex.biserie.rest)}</div>` : '<div style="font-size:11px;color:var(--tx2);margin-top:6px">Sin descanso entre A y B</div>'}
+    </div>` : '';
+
   return `<div class="exercise-card">
     <div class="ex-header">
       <div class="ex-emoji">${ex.emoji||'💪'}</div>
-      <div style="flex:1"><div class="ex-name">${ex.name}</div><div class="ex-muscle">${ex.muscle} ${progTag}</div></div>
+      <div style="flex:1">
+        <div class="ex-name">${ex.name}${biserieTag}</div>
+        <div class="ex-muscle">${ex.muscle} ${progTag}</div>
+      </div>
       <button class="icon-btn" onclick="openEditExercise('${ex.id}')"><i class="ti ti-edit"></i></button>
       <button class="icon-btn" onclick="deleteExercise('${ex.id}')"><i class="ti ti-trash"></i></button>
     </div>
+    <div style="font-size:11px;color:var(--tx2);margin-bottom:6px;font-weight:500">${hasBiserie?'A — '+ex.name:''}</div>
     <div class="stats-row">
       <div class="stat-box"><div class="stat-label">Series</div><div class="stat-val">${last?last.sets:ex.sets}<span class="stat-unit">/${ex.sets}</span></div></div>
       <div class="stat-box"><div class="stat-label">Reps</div><div class="stat-val">${last?last.reps:ex.reps}<span class="stat-unit">/${ex.reps}</span></div></div>
       <div class="stat-box"><div class="stat-label">Peso</div><div class="stat-val">${last?last.weight:ex.weight}<span class="stat-unit">kg</span></div></div>
     </div>
-    <div class="card-btns">
+    ${biserieBlock}
+    <div class="card-btns" style="margin-top:10px">
       <button class="btn btn-primary" onclick="openLog('${ex.id}')"><i class="ti ti-pencil"></i> Registrar</button>
       <button class="btn btn-secondary" onclick="startTimer(${ex.rest})"><i class="ti ti-clock"></i> ${restLabel}</button>
     </div>
@@ -717,6 +799,10 @@ function doImport(e) {
 }
 
 /* ── EXERCISE MODAL ── */
+function toggleBiserieBlock() {
+  const on = document.getElementById('ex-biserie').checked;
+  document.getElementById('biserie-block').style.display = on ? 'block' : 'none';
+}
 function openAddExercise() {
   document.getElementById('modal-ex-title').textContent = 'Agregar ejercicio';
   document.getElementById('edit-ex-id').value = '';
@@ -727,6 +813,14 @@ function openAddExercise() {
   document.getElementById('ex-weight').value = 20;
   document.getElementById('ex-rest').value = 60;
   document.getElementById('ex-day').value = state.activeDay;
+  document.getElementById('ex-biserie').checked = false;
+  document.getElementById('biserie-block').style.display = 'none';
+  document.getElementById('ex-b-name').value = '';
+  document.getElementById('ex-b-sets').value = 3;
+  document.getElementById('ex-b-reps').value = 10;
+  document.getElementById('ex-b-weight').value = 15;
+  document.getElementById('ex-b-hasrest').checked = false;
+  document.getElementById('ex-b-rest').value = 30;
   setEmoji('💪');
   openModal('modal-ex');
 }
@@ -742,6 +836,19 @@ function openEditExercise(id) {
   document.getElementById('ex-weight').value = ex.weight;
   document.getElementById('ex-rest').value = ex.rest;
   document.getElementById('ex-day').value = ex.day;
+  // biserie
+  const hasBiserie = !!(ex.biserie && ex.biserie.name);
+  document.getElementById('ex-biserie').checked = hasBiserie;
+  document.getElementById('biserie-block').style.display = hasBiserie ? 'block' : 'none';
+  if (hasBiserie) {
+    document.getElementById('ex-b-name').value = ex.biserie.name || '';
+    document.getElementById('ex-b-muscle').value = ex.biserie.muscle || 'Bíceps';
+    document.getElementById('ex-b-sets').value = ex.biserie.sets || 3;
+    document.getElementById('ex-b-reps').value = ex.biserie.reps || 10;
+    document.getElementById('ex-b-weight').value = ex.biserie.weight || 15;
+    document.getElementById('ex-b-hasrest').checked = !!(ex.biserie.hasRest);
+    document.getElementById('ex-b-rest').value = ex.biserie.rest || 30;
+  }
   setEmoji(ex.emoji || '💪');
   openModal('modal-ex');
 }
@@ -753,6 +860,9 @@ function saveExercise() {
   const id = document.getElementById('edit-ex-id').value;
   const name = document.getElementById('ex-name').value.trim();
   if (!name) { showToast('⚠️ Ingresa un nombre'); return; }
+  const isBiserie = document.getElementById('ex-biserie').checked;
+  const bName = document.getElementById('ex-b-name').value.trim();
+  if (isBiserie && !bName) { showToast('⚠️ Ingresa el nombre del ejercicio B'); return; }
   const ex = {
     id: id || Date.now().toString(), name,
     muscle: document.getElementById('ex-muscle').value,
@@ -761,7 +871,16 @@ function saveExercise() {
     weight: parseFloat(document.getElementById('ex-weight').value) || 0,
     rest: parseInt(document.getElementById('ex-rest').value) || 60,
     emoji: selectedEmoji,
-    day: parseInt(document.getElementById('ex-day').value)
+    day: parseInt(document.getElementById('ex-day').value),
+    biserie: isBiserie ? {
+      name: bName,
+      muscle: document.getElementById('ex-b-muscle').value,
+      sets: parseInt(document.getElementById('ex-b-sets').value) || 3,
+      reps: parseInt(document.getElementById('ex-b-reps').value) || 10,
+      weight: parseFloat(document.getElementById('ex-b-weight').value) || 0,
+      hasRest: document.getElementById('ex-b-hasrest').checked,
+      rest: parseInt(document.getElementById('ex-b-rest').value) || 30
+    } : null
   };
   if (id) { const i = state.exercises.findIndex(e => e.id === id); if (i >= 0) state.exercises[i] = ex; }
   else state.exercises.push(ex);
@@ -786,6 +905,17 @@ function openLog(exId) {
   document.getElementById('log-prog').value = '';
   document.getElementById('log-notes').value = '';
   document.querySelectorAll('.prog-opt').forEach(b => b.className = 'prog-opt');
+  // biserie
+  const hasBiserie = !!(ex.biserie && ex.biserie.name);
+  document.getElementById('log-a-label').textContent = hasBiserie ? `A — ${ex.name}` : 'Ejercicio';
+  const bSection = document.getElementById('log-b-section');
+  bSection.style.display = hasBiserie ? 'block' : 'none';
+  if (hasBiserie) {
+    document.getElementById('log-b-label').textContent = `B — ${ex.biserie.name}`;
+    document.getElementById('log-b-reps').value = ex.biserie.reps;
+    document.getElementById('log-b-sets').value = ex.biserie.sets;
+    document.getElementById('log-b-weight').value = ex.biserie.weight;
+  }
   openModal('modal-log');
 }
 function selProg(btn, val) {
@@ -795,6 +925,8 @@ function selProg(btn, val) {
 }
 function saveLog() {
   const exId = document.getElementById('log-ex-id').value;
+  const ex = state.exercises.find(e => e.id === exId);
+  const hasBiserie = !!(ex && ex.biserie && ex.biserie.name);
   const log = {
     id: Date.now().toString(), exId,
     date: new Date().toDateString(),
@@ -804,7 +936,19 @@ function saveLog() {
     prog: document.getElementById('log-prog').value || 'bien',
     notes: document.getElementById('log-notes').value.trim()
   };
-  state.logs.push(log); save(); closeModal('modal-log'); renderRoutineList();
+  if (hasBiserie) {
+    log.biserie = {
+      reps: parseInt(document.getElementById('log-b-reps').value) || 0,
+      sets: parseInt(document.getElementById('log-b-sets').value) || 0,
+      weight: parseFloat(document.getElementById('log-b-weight').value) || 0
+    };
+  }
+  state.logs.push(log); save(); closeModal('modal-log');
+  // si biserie tiene descanso entre A y B, mostrar timer
+  if (hasBiserie && ex.biserie.hasRest) {
+    setTimeout(() => startTimer(ex.biserie.rest), 300);
+  }
+  renderRoutineList();
   showToast('Sesión registrada ✓');
 }
 
